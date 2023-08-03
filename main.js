@@ -20,7 +20,7 @@ var gGame = {
     shownCount: 0,
     markedCount: 0,
     secsPassed: 0,
-    lives: 3,
+    lives: 2,
     hints: 3
 }
 
@@ -228,7 +228,7 @@ function checkWinGame() {
 function beginnerLevel(gBoard) {
     gLevel.SIZE = 4
     gLevel.MINES = 2
-// gGame.lives = 2
+    gGame.lives = 2
     onInit()
 }
 
@@ -236,6 +236,7 @@ function beginnerLevel(gBoard) {
 function mediumLevel(gBoard) {
     gLevel.SIZE = 8
     gLevel.MINES = 14
+    gGame.lives = 3
 
     onInit()
 }
@@ -243,6 +244,7 @@ function mediumLevel(gBoard) {
 function expertLevel(gBoard) {
     gLevel.SIZE = 12
     gLevel.MINES = 32
+    gGame.lives = 3
 
     onInit()
 }
@@ -273,12 +275,17 @@ function updateLives() {
 
 function resetGame() {
     gGame.isOn = false;
-    gGame.lives = 3;
+    
     gGame.shownCount = 0;
     gGame.markedCount = 0;
     gGame.secsPassed = 0;
     gBoard = buildBoard();
     renderBoard(gBoard);
+    if (gLevel.SIZE === 4 && gLevel.MINES === 2) {
+        gGame.lives = 2;
+    } else {
+        gGame.lives = 3;
+    }
     updateLives()
 
     // Update the smiley face to normal 😃
