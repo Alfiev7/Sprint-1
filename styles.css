@@ -409,3 +409,11 @@ button.hintButton {
     }
 }
 
+.timer {
+    position: absolute;
+    top: 143px; 
+    right: 151px; 
+    z-index: 9; 
+    font-size: 30px;
+}
+

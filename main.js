@@ -1,3 +1,6 @@
+var timerInterval;
+
+
 const MINE = '💣'
 const EMPTY = ''
 const FLAG = '🚩'
@@ -28,8 +31,8 @@ function onInit() {
     gBoard = buildBoard();
     renderBoard(gBoard);
     updateLives()
-    
- 
+
+
     gGame.isOn = false;
 }
 function buildBoard() {
@@ -70,7 +73,7 @@ function renderBoard(gBoard) {
                 }
 
             }
-            var cellShown = cell.isShown ? 'shown' : ''; 
+            var cellShown = cell.isShown ? 'shown' : '';
             console.log(cellShown)
 
 
@@ -88,28 +91,30 @@ function renderBoard(gBoard) {
 function onCellClicked(i, j) {
     const cell = gBoard[i][j];
 
-    if(gGame.lives === 0) return
+    if (gGame.lives === 0) return
     console.log(gGame.lives)
 
     if (!gGame.isOn) {
-       
-       isFirstClick = false;
 
-        
+        isFirstClick = false;
+
+        startTimer();
+
+
         gBoard = buildBoard();
         placeMines(gBoard);
 
-        
+
         setMinesNegsCount(gBoard);
 
-        
+
         expandShown(i, j);
 
-        
+
         gGame.isOn = true;
     }
 
-    
+
 
     if (cell.isMarked || cell.isShown) return;
 
@@ -148,15 +153,16 @@ function placeMines(board) {
 
 
 function onRightClick(event, i, j) {
-    event.preventDefault(); 
+    event.preventDefault();
     var cell = gBoard[i][j];
-    cell.isMarked = !cell.isMarked;      
+    cell.isMarked = !cell.isMarked;
     renderBoard(gBoard);
     checkWinGame()
 }
 
 
 function gameOver(clickedMineCell) {
+
 
     gGame.lives--;
 
@@ -166,11 +172,13 @@ function gameOver(clickedMineCell) {
 
     if (gGame.lives === 0) {
 
+
+        stopTimer();
         revealMines();
         renderBoard(gBoard)
         showLoseModal()
         gGame.isOn = false;
-        
+
 
 
         var elSmiley = document.querySelector('.smiley');
@@ -180,7 +188,7 @@ function gameOver(clickedMineCell) {
 
         renderBoard(gBoard);
     }
-    
+
 }
 
 function revealMines() {
@@ -214,8 +222,9 @@ function checkWinGame() {
     }
 
     if (allMinesFlagged && allNumberCellsShown) {
+        stopTimer();
 
-        
+
         var elSmiley = document.querySelector('.smiley');
         elSmiley.innerText = '😎';
         showWinModal()
@@ -224,6 +233,7 @@ function checkWinGame() {
 }
 
 function beginnerLevel(gBoard) {
+    if (timerInterval) stopTimer();
     gLevel.SIZE = 4
     gLevel.MINES = 2
     gGame.lives = 2
@@ -232,6 +242,7 @@ function beginnerLevel(gBoard) {
 
 
 function mediumLevel(gBoard) {
+    if (timerInterval) stopTimer();
     gLevel.SIZE = 8
     gLevel.MINES = 14
     gGame.lives = 3
@@ -240,6 +251,7 @@ function mediumLevel(gBoard) {
 }
 
 function expertLevel(gBoard) {
+    if (timerInterval) stopTimer();
     gLevel.SIZE = 12
     gLevel.MINES = 32
     gGame.lives = 3
@@ -250,7 +262,7 @@ function expertLevel(gBoard) {
 function expandShown(i, j) {
     for (var x = i - 1; x <= i + 1; x++) {
         for (var y = j - 1; y <= j + 1; y++) {
-            if (x === i && y === j) continue; 
+            if (x === i && y === j) continue;
 
             if (x >= 0 && x < gBoard.length && y >= 0 && y < gBoard[0].length) {
                 var neighborCell = gBoard[x][y];
@@ -266,14 +278,15 @@ function expandShown(i, j) {
 }
 
 function updateLives() {
-    
+
     var elLives = document.querySelector('.lives');
     elLives.innerHTML = '💚= ' + gGame.lives;
 }
 
 function resetGame() {
+    stopTimer();
     gGame.isOn = false;
-    
+
     gGame.shownCount = 0;
     gGame.markedCount = 0;
     gGame.secsPassed = 0;
@@ -307,12 +320,34 @@ function onHintClick() {
         var elHintButton = document.querySelector('.hintButton');
         elHintButton.style.backgroundColor = 'yellow';
         elHintButton.style.transform = 'scale(1.1)';
-        
+
 
         gGame.hints--;
-        
-   
+
+
         elHintButton.innerText = '💡: ' + gGame.hints;
     }
 }
 
+function startTimer() {
+    var startTime = Date.now();
+
+    timerInterval = setInterval(function () {
+        var elapsedTime = Date.now() - startTime;
+        var minutes = Math.floor(elapsedTime / (60 * 1000));
+        var seconds = Math.floor((elapsedTime % (60 * 1000)) / 1000);
+        var milliseconds = Math.floor((elapsedTime % 1000));
+        var minutesStr = (minutes < 10 ? '0' : '') + minutes;
+        var secondsStr = (seconds < 10 ? '0' : '') + seconds;
+        var millisecondsStr = (milliseconds < 100 ? '0' : '') + (milliseconds < 10 ? '0' : '') + milliseconds;
+
+        var timerString = minutesStr + ':' + secondsStr + '.' + millisecondsStr;
+
+        document.querySelector('.timer').innerText = timerString;
+    }, 10);
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+    document.querySelector('.timer').innerText = '00:00:000';
+}
