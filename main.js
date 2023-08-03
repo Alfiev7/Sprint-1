@@ -5,7 +5,7 @@ const FLAG = '🚩'
 
 
 
-
+var isHintActive = false;
 var isFirstClick = true;
 var gBoard;
 var gLevel = {
@@ -21,11 +21,13 @@ var gGame = {
     markedCount: 0,
     secsPassed: 0,
     lives: 3,
+    hints: 3
 }
 
 function onInit() {
     gBoard = buildBoard();
     renderBoard(gBoard);
+    updateLives()
     
     // false = indicating the game is not yet started.
     gGame.isOn = false;
@@ -69,8 +71,11 @@ function renderBoard(gBoard) {
                 }
 
             }
+            var cellShown = cell.isShown ? 'shown' : '';  // New line: Check if the cell is shown
+            console.log(cellShown)
 
-            strHTML += `<td onclick="onCellClicked(${i}, ${j})" oncontextmenu="onRightClick(event, ${i}, ${j}); return false;">${cellContent}</td>`;
+
+            strHTML += `<td class="${cellShown}" onclick="onCellClicked(${i}, ${j})" oncontextmenu="onRightClick(event, ${i}, ${j}); return false;">${cellContent}</td>`;
         }
         strHTML += `</tr>\n`;
     }
@@ -88,24 +93,28 @@ function onCellClicked(i, j) {
     console.log(gGame.lives)
 
     if (!gGame.isOn) {
-        // First click handling
+       
        isFirstClick = false;
 
-        // Place mines after building an empty board
+        
         gBoard = buildBoard();
         placeMines(gBoard);
 
-        // Calculate neighbors
+        
         setMinesNegsCount(gBoard);
 
-        // Expand the first clicked cell and its neighbors
+        
         expandShown(i, j);
 
-        // Start the game
+        
         gGame.isOn = true;
     }
 
+    
+
     if (cell.isMarked || cell.isShown) return;
+
+
 
     if (cell.isMine) {
         cell.isShown = true;
@@ -121,8 +130,6 @@ function onCellClicked(i, j) {
     checkWinGame()
 }
 
-
-    
 
 function placeMines(board) {
 
@@ -162,6 +169,7 @@ function gameOver(clickedMineCell) {
         // Reveal all mines if out of lives
         revealMines();
         renderBoard(gBoard)
+        showLoseModal()
         gGame.isOn = false;
         
 
@@ -208,18 +216,19 @@ function checkWinGame() {
     }
 
     if (allMinesFlagged && allNumberCellsShown) {
-        alert('you win')
+
         //change smiley to this if won 
         var elSmiley = document.querySelector('.smiley');
         elSmiley.innerText = '😎';
-        // resetGame();
+        showWinModal()
+
     }
 }
 
 function beginnerLevel(gBoard) {
     gLevel.SIZE = 4
     gLevel.MINES = 2
-
+// gGame.lives = 2
     onInit()
 }
 
@@ -259,7 +268,7 @@ function expandShown(i, j) {
 function updateLives() {
     
     var elLives = document.querySelector('.lives');
-    elLives.innerText = 'LIVES: ' + gGame.lives;
+    elLives.innerHTML = '💚= ' + gGame.lives;
 }
 
 function resetGame() {
@@ -275,5 +284,30 @@ function resetGame() {
     // Update the smiley face to normal 😃
     var elSmiley = document.querySelector('.smiley');
     elSmiley.innerText = '😃';
+}
+
+function updateHints() {
+    var elHintButton = document.querySelector('.hintButton');
+    elHintButton.innerText = '💡: ' + gGame.hints;
+    if (gGame.hints === 0) {
+        elHintButton.disabled = true;
+    }
+}
+
+function onHintClick() {
+    console.log("Hint button clicked!");
+    if (gGame.hints > 0) {
+        isHintActive = true;
+
+        var elHintButton = document.querySelector('.hintButton');
+        elHintButton.style.backgroundColor = 'yellow'; // Added quotation marks
+        elHintButton.style.transform = 'scale(1.1)';
+        
+        // Decrement the hint count
+        gGame.hints--;
+        
+        // Update the hint button text
+        elHintButton.innerText = '💡: ' + gGame.hints;
+    }
 }
 

@@ -3,29 +3,374 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #fafafa;
+    background-color: #ffffff;
     padding: 0;
     margin: 0;
     font-family: Arial, sans-serif;
+    margin-right: 110px;
+    padding-bottom: 500px;
+    margin-top: -40px
+}
+
+.iphone-container {
+    position: relative;
+    width: 80vw; 
+    height: 80vh; 
+    max-width: 750px; 
+    max-height: 750px; 
+}
+
+.iphone {
+    margin: auto;
+    border: 10px solid black;
+    border-radius: 40px;
+    width: 425px;
+    height: 750px;
+    position: relative;
+    box-shadow: 0px 30px 60px 20px rgba(0, 0, 0, 0.9);
+}
+
+.screen {
+    z-index: 2;
+    position: absolute;
+    background: url("images/background.jpg");
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+}
+
+.notch {
+    z-index: 50;
+    top: 0;
+    left: 50%;
+    position: absolute;
+    background: #000000;
+    width: 200px;
+    height: 30px;
+    border-radius: 0px 0px 20px 20px;
+    margin-top: 10px;
+    transform: translateX(-50%);
+}
+
+.camera {
+    position: absolute;
+    bottom: 8px;
+    right: 20px;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: .2rem solid #1e1f22;
+    background: #447bb5a6;
+}
+
+.speaker {
+    position: absolute;
+    right: 3.9rem;
+    width: 5.2rem;
+    height: .6rem;
+    background: #333;
+    border-radius: .2rem;
+}
+
+
+.button-container {
+    z-index: 3;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    margin: 29px 0px
 }
 
 table {
     border-collapse: collapse;
+
 }
 
 td {
-    border: 1px solid #000;
-    width: 50px;
-    height: 50px;
+ width: 41px;
+    height: 27px;
     text-align: center;
     vertical-align: middle;
+    background: #cacfd4;
+    padding: 2px;
+    border-radius: 20px;
+    margin: 0 5px;
+    box-sizing: border-box;
+    min-width: 31px;   
+    min-height: 13px;  
+    overflow: auto;
+    box-shadow: 
+    6px 6px 10px -1px rgba(0,0,0,0.15),
+    inset 3px 3px 6px rgba(0,0,0,0.2),
+    inset -3px -3px 6px rgba(255,255,255,0.7);
+    
 }
 
-h1{
+h1 {
     margin-bottom: 50%;
 }
 
-.board{
-    margin-left: -253px;
-    margin-bottom: 250px;
+.board {
+    z-index: 3;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 90%;
 }
+
+
+.lose-modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    
+}
+
+.lose-modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 15%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s,
+}
+
+.win-modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.win-modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 15%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s,
+}
+
+
+@-webkit-keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+
+.win-close-button {
+    color: rgb(0, 0, 0);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.win-close-button:hover{
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.close-button {
+    color: rgb(0, 0, 0);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button {
+    display: grid;
+    place-items: center;
+    background: #e3edf7;
+    padding: 1.4em;
+    border-radius: 10px;
+    box-shadow: 0px 10px 60px 20px rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0);
+    cursor: pointer;
+    transition: transform 0.5s;
+    margin: 0 -6px;
+}
+
+button:hover {
+    box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
+        inset -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
+        -0.5px -0.5px 0px rgba(255, 255, 255, 1),
+        0.5px 0.5px 0px rgba(0, 0, 0, 0.15),
+        0px 12px 10px -10px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transform: translateY(0.5em);
+}
+
+button svg {
+    transition: transform 0.5s;
+}
+
+.button:hover svg {
+    transform: scale(0.9);
+    fill: #333333;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #333333;
+    color: white;
+    text-align: center;
+    padding: 0.2px 0;
+
+}
+
+td.shown {
+    background: green; 
+}
+
+.lives {
+    position: absolute; 
+    top: 10px;
+    right: 40px;
+    z-index: 10; 
+    font-size: 20px; 
+    color: #ffffff; 
+}
+
+
+button.hintButton {
+    margin-top: 20px;
+    margin-left: 25px;
+}
+
+@media (max-width: 600px) {
+    .iphone-container {
+        width: 90vw;
+        height: 90vh;
+    }
+
+    .lose-modal-content,
+    .win-modal-content {
+        width: 95%;
+    }
+}
+
+
+@media (max-width: 600px) {
+    .iphone-container {
+        width: 90vw;
+        height: 90vh;
+    }
+
+    .lose-modal-content,
+    .win-modal-content {
+        width: 95%;
+    }
+}
+
+/* BIG SCREEN SIZES */
+@media (min-width: 1200px) {
+    .board {
+        width: 40%;
+        height: 40%;
+    }
+}
+
+/* MEDIUM SCREENS */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .board {
+        width: 70%;
+        height: 70%;
+    }
+}
+
+/* SMALL SCREENS */
+@media (max-width: 767px) {
+    .board {
+        width: 80%;
+        height: 80%;
+    }
+}
+
+/* LARGE SCREENS */
+@media (min-width: 1200px) {
+    .iphone {
+        width: 60%; 
+        height: 100%; 
+    }
+}
+
+/* MEDIUM SCREENS */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .iphone {
+        width: 70%; 
+        height: 90%; 
+    }
+}
+
+/* SMALL SCREENS */
+@media (max-width: 767px) {
+    .iphone {
+        width: 80%; 
+        height: 100%; 
+    }
+}
+
