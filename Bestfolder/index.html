@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body onload="onInit()">
+    <!-- <h1>Alfie's Minesweeper</h1> -->
+    <div class="iphone-container">
+        <table class="board"></table>
+        <div class="iphone">
+            <span class="screen">
+
+                <button class="hintButton" onclick="onHintClick()">💡</button>
+            </span>
+            <div class="lives"></div>
+            <div class="button-container">
+                <button onclick="cheat()">Cheat</button>
+                <button onclick="beginnerLevel()">Beginner</button>
+                <button onclick="mediumLevel()">Medium</button>
+                <button onclick="expertLevel()">Expert</button>
+                <button onclick="resetGame()">
+                    <span class="smiley">😃</span>
+                </button>
+            </div>
+        </div>
+        <div class="notch">
+            <span class="camera"></span>
+            <span class="speaker"></span>
+        </div>
+    </div>
+
+    <div>
+        <div class="lose-modal">
+            <div class="lose-modal-content">
+                <span class="close-button">x</span>
+                <p id="lose-modal-text">GAME OVER, 0 lives left!</p>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="win-modal">
+            <div class="win-modal-content">
+                <span class="win-close-button">x</span>
+                <p id="win-modal-text">CONGRATULATIONS, YOU WON!</p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="main.js"></script>
+    <script src="utils.js"></script>
+    <footer>
+        <p>Created by Alfie Alfandary</p>
+    </footer>
+</body>
+
+</html>
