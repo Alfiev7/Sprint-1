@@ -1,9 +1,24 @@
+
+:root {
+    --text-color-light: black;
+    --bg-color-light: white;
+
+    --text-color-dark: white;
+    --bg-color-dark: rgb(67, 64, 64);
+}
+
+
+body.dark-mode {
+    --bg-color: var(--bg-color-dark);
+}
+
+
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #ffffff;
+    background-color: var(--bg-color);
     padding: 0;
     margin: 0;
     font-family: Arial, sans-serif;
@@ -300,6 +315,26 @@ button.hintButton {
     margin-top: 20px;
     margin-left: 25px;
 }
+
+
+
+.darkmode {
+    z-index: 4;
+    position: absolute;
+    top: 46px;
+    right: 20px;
+    background-color: #555b55; /* Green */
+    border: none;
+    color: white;
+    padding: 9px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 11px;
+}
+
+
+
 
 @media (max-width: 600px) {
     .iphone-container {
