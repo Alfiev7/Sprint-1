@@ -29,10 +29,9 @@ function onInit() {
     renderBoard(gBoard);
     updateLives()
     
-    // false = indicating the game is not yet started.
+ 
     gGame.isOn = false;
 }
-
 function buildBoard() {
 
     var board = []
@@ -71,7 +70,7 @@ function renderBoard(gBoard) {
                 }
 
             }
-            var cellShown = cell.isShown ? 'shown' : '';  // New line: Check if the cell is shown
+            var cellShown = cell.isShown ? 'shown' : ''; 
             console.log(cellShown)
 
 
@@ -149,37 +148,36 @@ function placeMines(board) {
 
 
 function onRightClick(event, i, j) {
-    event.preventDefault(); // so that context menu does not pop up
+    event.preventDefault(); 
     var cell = gBoard[i][j];
-    cell.isMarked = !cell.isMarked;      // every click will mark and unmark
+    cell.isMarked = !cell.isMarked;      
     renderBoard(gBoard);
     checkWinGame()
 }
 
 
 function gameOver(clickedMineCell) {
-    // Decrement the number of lives when a mine is clicked
+
     gGame.lives--;
 
-    // Display the remaining lives on the screen
+
     updateLives();
 
-    // Check if the game is over (no more lives)
+
     if (gGame.lives === 0) {
-        // Reveal all mines if out of lives
+
         revealMines();
         renderBoard(gBoard)
         showLoseModal()
         gGame.isOn = false;
         
 
-        //change smiley face to this if lost
+
         var elSmiley = document.querySelector('.smiley');
         elSmiley.innerText = '🤯';
 
     } else {
-        // If there are still lives left, reveal only the clicked mine cell
-        // clickedMineCell.isShown = true;
+
         renderBoard(gBoard);
     }
     
@@ -217,7 +215,7 @@ function checkWinGame() {
 
     if (allMinesFlagged && allNumberCellsShown) {
 
-        //change smiley to this if won 
+        
         var elSmiley = document.querySelector('.smiley');
         elSmiley.innerText = '😎';
         showWinModal()
@@ -252,7 +250,7 @@ function expertLevel(gBoard) {
 function expandShown(i, j) {
     for (var x = i - 1; x <= i + 1; x++) {
         for (var y = j - 1; y <= j + 1; y++) {
-            if (x === i && y === j) continue; // Skip the clicked cell itself
+            if (x === i && y === j) continue; 
 
             if (x >= 0 && x < gBoard.length && y >= 0 && y < gBoard[0].length) {
                 var neighborCell = gBoard[x][y];
@@ -288,7 +286,7 @@ function resetGame() {
     }
     updateLives()
 
-    // Update the smiley face to normal 😃
+
     var elSmiley = document.querySelector('.smiley');
     elSmiley.innerText = '😃';
 }
@@ -307,13 +305,13 @@ function onHintClick() {
         isHintActive = true;
 
         var elHintButton = document.querySelector('.hintButton');
-        elHintButton.style.backgroundColor = 'yellow'; // Added quotation marks
+        elHintButton.style.backgroundColor = 'yellow';
         elHintButton.style.transform = 'scale(1.1)';
         
-        // Decrement the hint count
+
         gGame.hints--;
         
-        // Update the hint button text
+   
         elHintButton.innerText = '💡: ' + gGame.hints;
     }
 }

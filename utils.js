@@ -61,11 +61,7 @@ function showLoseModal() {
     }
 
 
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
+
 }
 
 function showWinModal() {
@@ -78,11 +74,7 @@ function showWinModal() {
         modal.style.display = "none";
     }
 
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
+
 }
 
 
@@ -90,3 +82,6 @@ function toggleDarkMode() {
     var body = document.body;
     body.classList.toggle('dark-mode');
 }
+
+
+
