@@ -119,7 +119,9 @@ function onCellClicked(i, j) {
         cell.isShown = true;
         renderBoard(gBoard);
     } else {
-        expandShown(i, j);
+            if (cell.minesAroundCount === 0) {
+            expandShown(i, j);
+        }
         renderBoard(gBoard);
     }
     checkWinGame()
@@ -347,22 +349,25 @@ function startGame(i, j) {
     
     gBoard[i][j].isMine = false;
 
+    
     placeMines(gBoard);
 
     
+    setMinesNegsCount(gBoard);  
+
+    gBoard[i][j].minesAroundCount = 0;
+
     if (gBoard[i][j].isMine) {
         gBoard[i][j].isMine = false;
         placeMineAtRandomLocation();
     }
 
-    setMinesNegsCount(gBoard);
-    expandShown(i, j);
-
-    
+   
     if (!gBoard[i][j].isShown) {
         gBoard[i][j].isShown = true;
     }
 }
+
 
 
 
