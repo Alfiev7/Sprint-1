@@ -9,7 +9,7 @@ const FLAG = '🚩'
 
 
 var isHintActive = false;
-var isFirstClick = true;
+
 var gBoard;
 var gLevel = {
     SIZE: 4,
@@ -24,7 +24,8 @@ var gGame = {
     markedCount: 0,
     secsPassed: 0,
     lives: 2,
-    hints: 3
+    hints: 3,
+    isFirstClick: true
 }
 
 function onInit() {
@@ -95,21 +96,11 @@ function onCellClicked(i, j) {
     console.log(gGame.lives)
 
     if (!gGame.isOn) {
-
         isFirstClick = false;
 
         startTimer();
 
-
-        gBoard = buildBoard();
-        placeMines(gBoard);
-
-
-        setMinesNegsCount(gBoard);
-
-
-        expandShown(i, j);
-
+        startGame(i, j);
 
         gGame.isOn = true;
     }
@@ -348,4 +339,41 @@ function startTimer() {
 function stopTimer() {
     clearInterval(timerInterval);
     document.querySelector('.timer').innerText = '00:00:000';
+}
+
+function startGame(i, j) {
+    gBoard = buildBoard();
+
+    
+    gBoard[i][j].isMine = false;
+
+    placeMines(gBoard);
+
+    
+    if (gBoard[i][j].isMine) {
+        gBoard[i][j].isMine = false;
+        placeMineAtRandomLocation();
+    }
+
+    setMinesNegsCount(gBoard);
+    expandShown(i, j);
+
+    
+    if (!gBoard[i][j].isShown) {
+        gBoard[i][j].isShown = true;
+    }
+}
+
+
+
+function placeMineAtRandomLocation() {
+    while (true) {
+        let row = Math.floor(Math.random() * gLevel.SIZE);
+        let col = Math.floor(Math.random() * gLevel.SIZE);
+
+        if (!gBoard[row][col].isMine) {
+            gBoard[row][col].isMine = true;
+            break;
+        }
+    }
 }
