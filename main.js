@@ -204,15 +204,15 @@ function revealMines() {
 
 
 function checkWinGame() {
-    var allMinesFlagged = true;
+    var allMinesFlaggedOrShown = true;
     var allNumberCellsShown = true;
 
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard[0].length; j++) {
             var cell = gBoard[i][j];
 
-            if (cell.isMine && !cell.isMarked) {
-                allMinesFlagged = false;
+            if (cell.isMine && !cell.isMarked && !cell.isShown) {
+                allMinesFlaggedOrShown = false;
             }
 
             if (!cell.isMine && !cell.isShown) {
@@ -221,16 +221,14 @@ function checkWinGame() {
         }
     }
 
-    if (allMinesFlagged && allNumberCellsShown) {
+    if (allMinesFlaggedOrShown && allNumberCellsShown) {
         stopTimer();
-
-
         var elSmiley = document.querySelector('.smiley');
         elSmiley.innerText = '😎';
         showWinModal()
-
     }
 }
+
 
 function beginnerLevel(gBoard) {
     if (timerInterval) stopTimer();
