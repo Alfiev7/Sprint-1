@@ -65,18 +65,19 @@ function renderBoard(gBoard) {
             var cellContent = '';
 
             if (cell.isMarked) {
-                cellContent = FLAG
+                cellContent = FLAG;
             } else if (cell.isShown) {
                 if (cell.isMine) {
                     cellContent = MINE;
                 } else {
                     cellContent = cell.minesAroundCount > 0 ? cell.minesAroundCount : '';
+                    if (cell.minesAroundCount > 0) {
+                        cell.isShown = true;
+                    }
                 }
-
             }
             var cellShown = cell.isShown ? 'shown' : '';
             console.log(cellShown)
-
 
             strHTML += `<td class="${cellShown}" onclick="onCellClicked(${i}, ${j})" oncontextmenu="onRightClick(event, ${i}, ${j}); return false;">${cellContent}</td>`;
         }
@@ -86,6 +87,7 @@ function renderBoard(gBoard) {
     const elBoard = document.querySelector('.board');
     elBoard.innerHTML = strHTML;
 }
+
 
 
 
@@ -119,6 +121,8 @@ function onCellClicked(i, j) {
         cell.isShown = true;
         renderBoard(gBoard);
     } else {
+
+        cell.isShown = true; 
             if (cell.minesAroundCount === 0) {
             expandShown(i, j);
         }
