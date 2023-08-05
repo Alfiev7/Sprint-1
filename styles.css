@@ -312,8 +312,20 @@ td.shown {
 
 
 button.hintButton {
-    margin-top: 20px;
+    margin-top: 2px;
     margin-left: 25px;
+    z-index: 4;
+    position: absolute;
+    /* top: 43px;
+    right: 347px; */
+    background-color: #555b55; /* Green */
+    border: none;
+    color: white;
+    padding: 9px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 11px;
 }
 
 
@@ -420,8 +432,8 @@ button.hintButton {
 .safe-click-btn {
     z-index: 4;
     position: absolute;
-    top: 90px;
-    right: 41px;
+    top: 43px;
+    right: 347px;
     background-color: #555b55; /* Green */
     border: none;
     color: white;

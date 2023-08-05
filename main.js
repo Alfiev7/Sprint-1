@@ -313,6 +313,7 @@ function resetGame() {
 function updateHints() {
     var elHintButton = document.querySelector('.hintButton');
     elHintButton.innerText = '💡: ' + gGame.hints;
+    alert('Hints are coming soon!')
     if (gGame.hints === 0) {
         elHintButton.disabled = true;
     }
@@ -320,6 +321,7 @@ function updateHints() {
 
 function onHintClick() {
     console.log("Hint button clicked!");
+    alert('Hints are coming soon!')
     if (gGame.hints > 0) {
         isHintActive = true;
 
