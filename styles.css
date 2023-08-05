@@ -411,9 +411,28 @@ button.hintButton {
 
 .timer {
     position: absolute;
-    top: 143px; 
-    right: 151px; 
+    top: 60px; 
+    right: 170px; 
     z-index: 9; 
     font-size: 30px;
 }
 
+.safe-click-btn {
+    z-index: 4;
+    position: absolute;
+    top: 90px;
+    right: 41px;
+    background-color: #555b55; /* Green */
+    border: none;
+    color: white;
+    padding: 9px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 11px;
+}
+
+
+.safe-cell {
+    background-color: red;
+}

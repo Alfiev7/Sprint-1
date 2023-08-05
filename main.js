@@ -25,7 +25,8 @@ var gGame = {
     secsPassed: 0,
     lives: 2,
     hints: 3,
-    isFirstClick: true
+    isFirstClick: true,
+    safeClicks: 3,
 }
 
 function onInit() {
@@ -79,7 +80,7 @@ function renderBoard(gBoard) {
             var cellShown = cell.isShown ? 'shown' : '';
             console.log(cellShown)
 
-            strHTML += `<td class="${cellShown}" onclick="onCellClicked(${i}, ${j})" oncontextmenu="onRightClick(event, ${i}, ${j}); return false;">${cellContent}</td>`;
+            strHTML += `<td class="${cellShown} ${cell.isSafe ? 'safe-cell' : ''}" onclick="onCellClicked(${i}, ${j})" oncontextmenu="onRightClick(event, ${i}, ${j}); return false;">${cellContent}</td>`;
         }
         strHTML += `</tr>\n`;
     }
@@ -232,6 +233,8 @@ function beginnerLevel(gBoard) {
     gLevel.SIZE = 4
     gLevel.MINES = 2
     gGame.lives = 2
+    gGame.safeClicks = 3;
+    updateSafeClicks()
     onInit()
 }
 
@@ -241,6 +244,8 @@ function mediumLevel(gBoard) {
     gLevel.SIZE = 8
     gLevel.MINES = 14
     gGame.lives = 3
+    gGame.safeClicks = 3;
+    updateSafeClicks()
 
     onInit()
 }
@@ -250,6 +255,8 @@ function expertLevel(gBoard) {
     gLevel.SIZE = 12
     gLevel.MINES = 32
     gGame.lives = 3
+    gGame.safeClicks = 3;
+    updateSafeClicks()
 
     onInit()
 }
@@ -289,8 +296,12 @@ function resetGame() {
     renderBoard(gBoard);
     if (gLevel.SIZE === 4 && gLevel.MINES === 2) {
         gGame.lives = 2;
+        gGame.safeClicks = 3;
+        updateSafeClicks()
     } else {
         gGame.lives = 3;
+        gGame.safeClicks = 3;
+        updateSafeClicks()
     }
     updateLives()
 
@@ -385,4 +396,46 @@ function placeMineAtRandomLocation() {
             break;
         }
     }
+}
+
+function onSafeClick() {
+    if (gGame.safeClicks === 0) return;
+
+    var hiddenCells = [];
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[0].length; j++) {
+            var cell = gBoard[i][j];
+            if (!cell.isShown && !cell.isMine) {
+                hiddenCells.push({ i, j });
+            }
+        }
+    }
+
+    if (hiddenCells.length === 0) return;
+
+    var randomIdx = getRandomInt(0, hiddenCells.length - 1);
+    var safeCell = hiddenCells[randomIdx];
+
+    
+    markSafeCell(safeCell.i, safeCell.j, 2000);
+
+    
+    gGame.safeClicks--;
+    updateSafeClicks();
+}
+
+function markSafeCell(i, j, duration) {
+    var cell = gBoard[i][j];
+    cell.isSafe = true;
+    renderBoard(gBoard);
+
+    setTimeout(function () {
+        cell.isSafe = false;
+        renderBoard(gBoard);
+    }, duration);
+}
+
+function updateSafeClicks() {
+    var elSafeClicks = document.querySelector('.safe-click-btn');
+    elSafeClicks.innerText = 'Safe Clicks: ' + gGame.safeClicks;
 }
